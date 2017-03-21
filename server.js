@@ -39,6 +39,16 @@ app.post('/webhook', function(req, res) {
         if (message.message.text) {
           var text = message.message.text;
           console.log(text); // In tin nhắn người dùng
+          switch(text){
+            case 'em la ai':
+              text = 'em la gau cua a Thanh`';break;
+            case 'em yeu ai':
+              text = 'em yeu a Thanh';break;
+            case 'em ten gi':
+              text = 'em ten Bi Mat';break;
+            default:
+              text = message.message.text;break;
+          };
           sendMessage(senderId, "Em_iu: " + text);
         }
       }
