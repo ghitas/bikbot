@@ -46,6 +46,8 @@ app.post('/webhook', function(req, res) {
               text = 'em yeu a Thanh';break;
             case 'em ten gi':
               text = 'em ten Bi Mat';break;
+            case 'xao xao':
+              text = 'em noi thiet ma';break;
             default:
               text = message.message.text;break;
           };
