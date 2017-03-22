@@ -86,3 +86,13 @@ app.set('ip', process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "0.0.0.0");
 server.listen(app.get('port'), app.get('ip'), function() {
   console.log("Chat bot server listening at %s:%d ", app.get('ip'), app.get('port'));
 });
+
+// PostgreSQL connection database
+const pg = require('pg');
+const connectionString = process.env.DATABASE_URL || 'postgres://okaufzpfgnpfdb:bac13ac3a933a4a18271c53155b5de08d975634d096ce8b4a8aaaf2fcb41af3b@ec2-54-243-185-99.compute-1.amazonaws.com:5432/d9bik3ltceta66';
+
+const client = new pg.Client(connectionString);
+client.connect();
+const query = client.query(
+  'CREATE TABLE items(id SERIAL PRIMARY KEY, text VARCHAR(40) not null, complete BOOLEAN)');
+query.on('end', () => { client.end(); });
