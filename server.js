@@ -49,19 +49,19 @@ app.post('/webhook', function(req, res) {
               text = 'em noi thiet ma';break;
             case 'ket noi mongodb cho a':
               sendMessage(senderId, "Em_iu: case chuan form ");
-              var MongoClient = require('mongodb').MongoClient, assert = require('assert');
-              // Connection URL
-              sendMessage(senderId, "Em_iu: khoi tao MongoClient ");
-              var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
-              // Use connect method to connect to the server
-              MongoClient.connect(url, function(err, db) {
-                  assert.equal(null, err);
-                sendMessage(senderId, "Em_iu: ket noi thanh cong ");
-                  //console.log("Connected successfully to server");
-                  text = "Connected successfully to server!! ket noi roi do a";
-                  db.close();
-                sendMessage(senderId, "Em_iu: dong ket noi ");
-              });
+//               var MongoClient = require('mongodb').MongoClient, assert = require('assert');
+//               // Connection URL
+//               sendMessage(senderId, "Em_iu: khoi tao MongoClient ");
+//               var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
+//               // Use connect method to connect to the server
+//               MongoClient.connect(url, function(err, db) {
+//                   assert.equal(null, err);
+//                 sendMessage(senderId, "Em_iu: ket noi thanh cong ");
+//                   //console.log("Connected successfully to server");
+//                   text = "Connected successfully to server!! ket noi roi do a";
+//                   db.close();
+//                 sendMessage(senderId, "Em_iu: dong ket noi ");
+//               });
               break;
             default:
               text = message.message.text;break;
