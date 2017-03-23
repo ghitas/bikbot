@@ -48,6 +48,19 @@ app.post('/webhook', function(req, res) {
               text = 'em ten Bi Mat';break;
             case 'xao xao':
               text = 'em noi thiet ma';break;
+            case 'ket noi mongodb cho a':
+              var MongoClient = require('mongodb').MongoClient, assert = require('assert');
+              // Connection URL
+              var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
+
+              // Use connect method to connect to the server
+              MongoClient.connect(url, function(err, db) {
+                  assert.equal(null, err);
+                  //console.log("Connected successfully to server");
+                  text = "Connected successfully to server!! ket noi roi do a";
+                  db.close();
+              });
+              break;
             default:
               text = message.message.text;break;
           };
