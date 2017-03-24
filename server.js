@@ -60,7 +60,10 @@ app.post('/webhook', function(req, res) {
                   //console.log("Connected successfully to server");
                   text = "Connected successfully to server!! ket noi roi do a";
                   sendMessage(senderId, "Em_iu: insert database ");
-                  insertDocuments(db, function() {
+//                   insertDocuments(db, function() {
+//                     db.close();
+//                   });
+                  findDocuments(db,function(){
                     db.close();
                   });
                 sendMessage(senderId, "Em_iu: dong ket noi ");
@@ -78,6 +81,17 @@ app.post('/webhook', function(req, res) {
                   sendMessage(senderId, "Inserted 3 documents into the collection \/ insert thanh cong");
                   callback(result);
               });
+              var findDocuments = function(db, callback) {
+                // Get the documents collection
+                var collection = db.collection('user');
+                // Find some documents
+                collection.find({}).toArray(function(err, docs) {
+                  assert.equal(err, null);
+                  sendMessage(senderId,"Found the following records");
+                  sendMessage(senderId,docs)
+                  callback(docs);
+                });
+              }
             }
               break;
             default:
