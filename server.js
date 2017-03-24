@@ -56,13 +56,10 @@ app.post('/webhook', function(req, res) {
               // Use connect method to connect to the server
               MongoClient.connect(url, function(err, db) {
                   assert.equal(null, err);
-                  sendMessage(senderId, "Em_iu: ket noi thanh cong ");
-                  //console.log("Connected successfully to server");
-                  text = "Connected successfully to server!! ket noi roi do a";
-                  sendMessage(senderId, "Em_iu: query database ");
-                  findDocuments(db, function() {
+                  sendMessage(senderId, "Em_iu: ket noi thanh cong " + senderId);
+                  //findDocuments(db, function() {
                       db.close();
-                  });
+                  //});
                 sendMessage(senderId, "Em_iu: dong ket noi ");
                });
               var insertDocuments = function(db, callback) {
