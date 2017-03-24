@@ -46,14 +46,16 @@ app.post('/webhook', function(req, res) {
               dap = text.substrring(m+18,text.length);
               MongoClient.connect(url, function(err, db) {
                 assert.equal(null, err);
-                  insertDocuments(db,function(){
-                    db.close();
-                  });
+                sendMessage(senderId,"mo ket noi");
+                insertDocuments(db,function(){
+                  db.close();
+                });
              });
             }
           }
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
+            sendMessage(senderId,"insert");
             // Get the documents collection
             var collection = db.collection('user');
             // Insert some documents
