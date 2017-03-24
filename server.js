@@ -37,22 +37,22 @@ app.post('/webhook', function(req, res) {
         // If user send text
         if (message.message.text) {
           var text = message.message.text;
-          var n = text.search("neu ai noi:");
-          var m = text.search("thi e tra loi la:");
-          var hoi = "",dap = "";
-          if(n>=0){
-            hoi = text.substring(n+12,m);
-            if(m>=0){
-              dap = text.substrring(m+18,text.length);
-              MongoClient.connect(url, function(err, db) {
-                assert.equal(null, err);
-                sendMessage(senderId,"mo ket noi");
-                insertDocuments(db,function(){
-                  db.close();
-                });
-             });
-            }
-          }
+//           var n = text.search("neu ai noi:");
+//           var m = text.search("thi e tra loi la:");
+//           var hoi = "",dap = "";
+//           if(n>=0){
+//             hoi = text.substring(n+12,m);
+//             if(m>=0){
+//               dap = text.substrring(m+18,text.length);
+//               MongoClient.connect(url, function(err, db) {
+//                 assert.equal(null, err);
+//                 sendMessage(senderId,"mo ket noi");
+//                 insertDocuments(db,function(){
+//                   db.close();
+//                 });
+//              });
+//             }
+//           }
           sendMessage(senderId,"repeat people");
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
