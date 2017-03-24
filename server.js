@@ -40,7 +40,13 @@ app.post('/webhook', function(req, res) {
           var n = text.search("neu ai noi:");
           var m = text.search("thi e tra loi la:");
           var hoi = "",dap = "";
-          sendMessage(senderId,n+"va"m);
+           if(n>=0){
+             hoi = text.substring(n+12,m);
+             if(m>=0){
+               dap = text.substring(m+18,text.length);
+             }
+           }
+          sendMessage(senderId,n+hoi+m+dap);
 //           if(n>=0){
 //             hoi = text.substring(n+12,m);
 //             if(m>=0){
