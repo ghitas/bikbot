@@ -38,6 +38,10 @@ app.post('/webhook', function(req, res) {
         if (message.message.text) {
           var text = message.message.text;
           var n = text.search("neu ai noi:");
+          var m = text.search("thi e tra loi la:");
+          var hoi = text.substring(n+12,m);
+          var dap = text.substring(m+18,text.length);
+          sendMessage(senderId,n+hoi+m+dap);
 //           if(n>=0){
 //             hoi = text.substring(n+12,m);
 //             if(m>=0){
@@ -53,7 +57,6 @@ app.post('/webhook', function(req, res) {
 //           }
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
-            sendMessage(senderId,"insert");
             // Get the documents collection
             var collection = db.collection('user');
             // Insert some documents
