@@ -38,52 +38,52 @@ app.post('/webhook', function(req, res) {
         if (message.message.text) {
           var text = message.message.text;
           sendMessage(senderId,text);
-          var n = text.search("neu ai noi:");
-          var m = text.search("thi e tra loi la:");
-          var hoi = "",dap = "";
-          if(n){
-            sendMessage(senderId,"123");
-            hoi = text.substring(n+12,m);
-          }
-          if(m){
-            dap = text.substrring(m+18,text.length);
-            MongoClient.connect(url, function(err, db) {
-              assert.equal(null, err);
-                insertDocuments(senderId,function(){
-                  db.close();
-                });
-           });
-          }
-          //--------------- function insert document to database
-          sendMessage(senderId,"insert");
-          var insertDocuments = function(db, callback) {
-            // Get the documents collection
-            var collection = db.collection('user');
-            // Insert some documents
-            collection.insertMany([
-              {"hoi" : hoi, "dap" : dap }
-            ], function(err, result) {
-              assert.equal(err, null);
-              assert.equal(1, result.result.n);
-              assert.equal(1, result.ops.length);
-              sendMessage(senderId,"e nho roi");
-              callback(result);
-            });
-          }
-          //-------------------function query database
-          sendMessage(senderId,"query");
-          var findDocuments = function(db, callback) {
-            // Get the documents collection
-            var collection = db.collection('user');
-            // Find some documents
-            sendMessage(senderId, "Em_iu: vao trong user collection ");
-            collection.find({'name': 'teo'}).toArray(function(err, docs) {
-              assert.equal(err, null);
-              console.log("Found the following records");
-              console.log(docs);
-              callback(docs);
-            });      
-          }
+//           var n = text.search("neu ai noi:");
+//           var m = text.search("thi e tra loi la:");
+//           var hoi = "",dap = "";
+//           if(n){
+//             sendMessage(senderId,"123");
+//             hoi = text.substring(n+12,m);
+//           }
+//           if(m){
+//             dap = text.substrring(m+18,text.length);
+//             MongoClient.connect(url, function(err, db) {
+//               assert.equal(null, err);
+//                 insertDocuments(senderId,function(){
+//                   db.close();
+//                 });
+//            });
+//           }
+//           //--------------- function insert document to database
+//           sendMessage(senderId,"insert");
+//           var insertDocuments = function(db, callback) {
+//             // Get the documents collection
+//             var collection = db.collection('user');
+//             // Insert some documents
+//             collection.insertMany([
+//               {"hoi" : hoi, "dap" : dap }
+//             ], function(err, result) {
+//               assert.equal(err, null);
+//               assert.equal(1, result.result.n);
+//               assert.equal(1, result.ops.length);
+//               sendMessage(senderId,"e nho roi");
+//               callback(result);
+//             });
+//           }
+//           //-------------------function query database
+//           sendMessage(senderId,"query");
+//           var findDocuments = function(db, callback) {
+//             // Get the documents collection
+//             var collection = db.collection('user');
+//             // Find some documents
+//             sendMessage(senderId, "Em_iu: vao trong user collection ");
+//             collection.find({'name': 'teo'}).toArray(function(err, docs) {
+//               assert.equal(err, null);
+//               console.log("Found the following records");
+//               console.log(docs);
+//               callback(docs);
+//             });      
+//           }
           sendMessage(senderId, "Tui là bot đây: " + text);
         }
       }
