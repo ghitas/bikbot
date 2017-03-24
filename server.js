@@ -39,13 +39,26 @@ app.post('/webhook', function(req, res) {
           var text = message.message.text;
           var n = text.search("neu ai noi:");
           var m = text.search("thi e tra loi la:");
+          var hoi = "", dap ="";
           if(n > -1){
-            var hoi = text.substring(n+12,m);
+            hoi = text.substring(n+12,m);
+            if(m > -1){
+              dap = text.substring(m+18,text.length);
+              var MongoClient = require('mongodb').MongoClient , assert = require('assert');
+              // Connection URL
+              var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
+              // Use connect method to connect to the server
+              MongoClient.connect(url, function(err, db) {
+                assert.equal(null, err);
+                insertDocuments(db, function() {
+                  db.close();
+                });
+              });
+            }
           }
-          if(m > -1){
-            var dap = text.substring(m+18,text.length);
+          if(n > -1 && m > -1){
+            
           }
-          sendMessage(senderId,n+hoi+m+dap);
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
             // Get the documents collection
