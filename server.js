@@ -53,6 +53,7 @@ app.post('/webhook', function(req, res) {
              });
             }
           }
+          sendMessage(senderId,"repeat people");
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
             sendMessage(senderId,"insert");
