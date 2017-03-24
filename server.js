@@ -60,9 +60,9 @@ app.post('/webhook', function(req, res) {
                   //console.log("Connected successfully to server");
                   text = "Connected successfully to server!! ket noi roi do a";
                   sendMessage(senderId, "Em_iu: query database ");
-                  //findDocuments(db, function() {
+                  findDocuments(db, function() {
                       db.close();
-                  //});
+                  });
                 sendMessage(senderId, "Em_iu: dong ket noi ");
                });
               var insertDocuments = function(db, callback) {
