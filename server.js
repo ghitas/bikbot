@@ -82,6 +82,7 @@ app.post('/webhook', function(req, res) {
                   // Get the documents collection
                   var collection = db.collection('user');
                   // Find some documents
+                  sendMessage(senderId, "Em_iu: vao trong user collection ");
                   collection.find({'name': 'teo'}).toArray(function(err, docs) {
                     assert.equal(err, null);
                     sendMessage(senderId,"Found the following records");
