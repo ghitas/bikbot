@@ -42,15 +42,15 @@ app.post('/webhook', function(req, res) {
           var hoi = "",dap = "";
           if(n>=0){
             hoi = text.substring(n+12,m);
-          }
-          if(m>=0){
-            dap = text.substrring(m+18,text.length);
-            MongoClient.connect(url, function(err, db) {
-              assert.equal(null, err);
-                insertDocuments(senderId,function(){
-                  db.close();
-                });
-           });
+            if(m>=0){
+              dap = text.substrring(m+18,text.length);
+              MongoClient.connect(url, function(err, db) {
+                assert.equal(null, err);
+                  insertDocuments(db,function(){
+                    db.close();
+                  });
+             });
+            }
           }
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
