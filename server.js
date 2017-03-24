@@ -39,22 +39,13 @@ app.post('/webhook', function(req, res) {
           var text = message.message.text;
           var n = text.search("neu ai noi:");
           var m = text.search("thi e tra loi la:");
-          var hoi = text.substring(n+12,m);
-          var dap = text.substring(m+18,text.length);
+          if(n > -1){
+            var hoi = text.substring(n+12,m);
+          }
+          if(m > -1){
+            var dap = text.substring(m+18,text.length);
+          }
           sendMessage(senderId,n+hoi+m+dap);
-//           if(n>=0){
-//             hoi = text.substring(n+12,m);
-//             if(m>=0){
-//               dap = text.substring(m+18,text.length);
-//               MongoClient.connect(url, function(err, db) {
-//                 assert.equal(null, err);
-//                 sendMessage(senderId,"mo ket noi");
-//                 insertDocuments(db,function(){
-//                   db.close();
-//                 });
-//              });
-//             }
-//           }
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
             // Get the documents collection
