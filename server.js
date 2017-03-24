@@ -85,8 +85,8 @@ app.post('/webhook', function(req, res) {
                   sendMessage(senderId, "Em_iu: vao trong user collection ");
                   collection.find({'name': 'teo'}).toArray(function(err, docs) {
                     assert.equal(err, null);
-                    sendMessage(senderId,"Found the following records");
-                    sendMessage(senderId,docs);
+                    console.log("Found the following records");
+                    console.log(docs);
                     callback(docs);
                   });      
                 }
