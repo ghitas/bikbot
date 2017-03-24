@@ -98,7 +98,7 @@ app.post('/webhook', function(req, res) {
 //               text = message.message.text;break;
           };
           sendMessage(senderId,text);
-        }
+     
       }
     }
   }
