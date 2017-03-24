@@ -40,13 +40,13 @@ app.post('/webhook', function(req, res) {
           var n = text.search("neu ai noi:");
           var m = text.search("thi e tra loi la:");
           var hoi = "", dap ="";
+          var MongoClient = require('mongodb').MongoClient , assert = require('assert');
+          // Connection URL
+          var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
           if(n > -1){
             hoi = text.substring(n+12,m);
             if(m > -1){
               dap = text.substring(m+18,text.length);
-              var MongoClient = require('mongodb').MongoClient , assert = require('assert');
-              // Connection URL
-              var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
               // Use connect method to connect to the server
               MongoClient.connect(url, function(err, db) {
                 assert.equal(null, err);
@@ -55,9 +55,13 @@ app.post('/webhook', function(req, res) {
                 });
               });
             }
-          }
-          if(n > -1 && m > -1){
-            
+          }else{
+            MongoClient.connect(url, function(err, db) {
+              assert.equal(null, err);
+              findDocuments(db, function() {
+                db.close();
+              });
+            });
           }
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
@@ -79,11 +83,9 @@ app.post('/webhook', function(req, res) {
             // Get the documents collection
             var collection = db.collection('user');
             // Find some documents
-            sendMessage(senderId, "Em_iu: vao trong user collection ");
-            collection.find({'name': 'teo'}).toArray(function(err, docs) {
+            collection.find({'hoi': text}).toArray(function(err, docs) {
               assert.equal(err, null);
-              console.log("Found the following records");
-              console.log(docs);
+              sendMessage(senderId,docs[0].dap);
               callback(docs);
             });      
           }
