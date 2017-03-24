@@ -37,63 +37,67 @@ app.post('/webhook', function(req, res) {
         // If user send text
         if (message.message.text) {
           var text = message.message.text;
-          console.log(text); // In tin nhắn người dùng
-          switch(text){
-            case 'em la ai':
-              text = 'em la gau cua a Thanh`';break;
-            case 'em yeu ai':
-              text = 'em yeu a Thanh';break;
-            case 'em ten gi':
-              text = 'em ten Bi Mat';break;
-            case 'xao xao':
-              text = 'em noi thiet ma';break;
-            case 'ket noi mongodb cho a':
-              sendMessage(senderId, "Em_iu: case chuan form ");
+          var n = text.search("neu ai noi:");
+          var m = text.search("thi e tra loi la:");
+          var hoi = "",dap = "";
+          if(n){
+            hoi = text.substring(n+12,m);
+          }
+          if(m){
+            dap = text.substrring(m+18,text.length);
+            MongoClient.connect(url, function(err, db) {
+              assert.equal(null, err);
+              console.log("Connected successfully to server");
+                insertDocuments(senderId,function(){
+                  db.close();
+                });
+//                   findDocuments(db, function() {
+//                       db.close();
+//                   });
+           });
+          }
+//           console.log(text); // In tin nhắn người dùng
+//           switch(text){
+//             case 'em la ai':
+//               text = 'em la gau cua a Thanh`';break;
+//             case 'ket noi mongodb cho a':
               var MongoClient = require('mongodb').MongoClient, assert = require('assert');
               // Connection URL
-              sendMessage(senderId, "Em_iu: khoi tao MongoClient ");
               var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
               // Use connect method to connect to the server
-              MongoClient.connect(url, function(err, db) {
-                  assert.equal(null, err);
-                  sendMessage(senderId, "Em_iu: ket noi thanh cong " + senderId);
-                  //findDocuments(db, function() {
-                      db.close();
-                  //});
-                sendMessage(senderId, "Em_iu: dong ket noi ");
-               });
+              
               var insertDocuments = function(db, callback) {
                 // Get the documents collection
                 var collection = db.collection('user');
                 // Insert some documents
                 collection.insertMany([
-                  {name : "teo", age: 21}, {name : "em", age: 32}, {name: "tao", age : 3}
+                  {"hoi" : hoi, "dap" : dap }
                 ], function(err, result) {
                   assert.equal(err, null);
-                  assert.equal(3, result.result.n);
-                  assert.equal(3, result.ops.length);
-                  sendMessage(senderId, "Inserted 3 documents into the collection \/ insert thanh cong");
+                  assert.equal(1, result.result.n);
+                  assert.equal(1, result.ops.length);
+                  sendMessage(senderId,"e nho roi");
                   callback(result);
-              });
+                });
+              }
+
               var findDocuments = function(db, callback) {
-                  // Get the documents collection
-                  var collection = db.collection('user');
-                  // Find some documents
-                  sendMessage(senderId, "Em_iu: vao trong user collection ");
-                  collection.find({"name": "teo"}).toArray(function(err, docs) {
-                    sendMessage(senderId, "Em_iu: vao trong ham querry");
-                    assert.equal(err, null);
-                    console.log("Found the following records");
-                    console.log(docs);
-                    callback(docs);
-                  });      
-                }
-            }
-              break;
-            default:
-              text = message.message.text;break;
+                // Get the documents collection
+                var collection = db.collection('user');
+                // Find some documents
+                sendMessage(senderId, "Em_iu: vao trong user collection ");
+                collection.find({'name': 'teo'}).toArray(function(err, docs) {
+                  assert.equal(err, null);
+                  console.log("Found the following records");
+                  console.log(docs);
+                  callback(docs);
+                });      
+              }
+//               break;
+//             default:
+//               text = message.message.text;break;
           };
-          sendMessage(senderId, "Em_iu: " + text);
+          sendMessage(senderId,text);
         }
       }
     }
