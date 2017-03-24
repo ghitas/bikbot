@@ -96,6 +96,7 @@ app.post('/webhook', function(req, res) {
 //               break;
 //             default:
 //               text = message.message.text;break;
+              sendMessage(senderId,text);
           };
           sendMessage(senderId,text);
      
