@@ -56,12 +56,29 @@ app.post('/webhook', function(req, res) {
               // Use connect method to connect to the server
               MongoClient.connect(url, function(err, db) {
                   assert.equal(null, err);
-                sendMessage(senderId, "Em_iu: ket noi thanh cong ");
+                  sendMessage(senderId, "Em_iu: ket noi thanh cong ");
                   //console.log("Connected successfully to server");
                   text = "Connected successfully to server!! ket noi roi do a";
-                  db.close();
+                  sendMessage(senderId, "Em_iu: insert database ");
+                  insertDocuments(db, function() {
+                    db.close();
+                  });
                 sendMessage(senderId, "Em_iu: dong ket noi ");
                });
+              var insertDocuments = function(db, callback) {
+                // Get the documents collection
+                var collection = db.collection('user');
+                // Insert some documents
+                collection.insertMany([
+                  {name : "teo", age: 21}, {name : "em", age: 32}, {name: "tao", age : 3}
+                ], function(err, result) {
+                  assert.equal(err, null);
+                  assert.equal(3, result.result.n);
+                  assert.equal(3, result.ops.length);
+                  sendMessage(senderId, "Inserted 3 documents into the collection \/ insert thanh cong");
+                  callback(result);
+              });
+            }
               break;
             default:
               text = message.message.text;break;
