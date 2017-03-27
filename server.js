@@ -6,6 +6,9 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var router = express();
 var app = express();
+var MongoClient = require('mongodb').MongoClient , assert = require('assert');
+// Connection URL
+var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -40,9 +43,6 @@ app.post('/webhook', function(req, res) {
           var n = text.search("neu ai noi:");
           var m = text.search("thi e tra loi la:");
           var hoi = "", dap ="";
-          var MongoClient = require('mongodb').MongoClient , assert = require('assert');
-          // Connection URL
-          var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
           if(n > -1){
             hoi = text.substring(n+12,m);
             if(m > -1){
