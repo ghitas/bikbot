@@ -60,8 +60,8 @@ app.post('/webhook', function(req, res) {
             assert.equal(null, err);
             findDocuments(db, function() {
               db.close();
-            });
-          },text);
+            },text);
+          });
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
             // Get the documents collection
