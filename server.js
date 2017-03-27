@@ -58,6 +58,7 @@ app.post('/webhook', function(req, res) {
           }else{
             MongoClient.connect(url, function(err, db) {
               assert.equal(null, err);
+              sendMessage(senderId,"ket noi thanh cong");
               findDocuments(db, function() {
                 db.close();
               });
@@ -81,7 +82,7 @@ app.post('/webhook', function(req, res) {
           //
           //-------------------function query database
           var findDocuments = function(db, callback) {
-            sendMessage(senderId,"text: "+ text);
+            sendMessage(senderId,"findDocument here");
             // Get the documents collection
             var collection = db.collection('user');
             // Find some documents
