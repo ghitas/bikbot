@@ -87,7 +87,7 @@ app.post('/webhook', function(req, res) {
             collection.find({hoi: text}).toArray(function(err, docs) {
               assert.equal(err, null);
               sendMessage(senderId,docs[0].dap);
-              callback();
+              callback(docs);
             });      
           }
           sendMessage(senderId,text);
