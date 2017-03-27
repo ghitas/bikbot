@@ -56,14 +56,12 @@ app.post('/webhook', function(req, res) {
               });
             }
           }
-          if(text == "thanh"){
-            MongoClient.connect(url, function(err, db) {
-              assert.equal(null, err);
-              findDocuments(db, function() {
-                db.close();
-              });
+          MongoClient.connect(url, function(err, db) {
+            assert.equal(null, err);
+            findDocuments(db, function() {
+              db.close();
             });
-          }
+          },text);
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
             // Get the documents collection
@@ -81,11 +79,11 @@ app.post('/webhook', function(req, res) {
           }
           //
           //-------------------function query database
-          var findDocuments = function(db, callback) {
+          var findDocuments = function(db, callback,text) {
             // Get the documents collection
             var collection = db.collection('user');
             // Find some documents
-            collection.find({'hoi': "e la ai "}).toArray(function(err, docs) {
+            collection.find({'hoi': text}).toArray(function(err, docs) {
               assert.equal(err, null);
               console.log(docs);
               sendMessage(senderId,docs[0].dap);
