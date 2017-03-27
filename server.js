@@ -5,7 +5,6 @@ var http = require('http');
 var bodyParser = require('body-parser');
 var express = require('express');
 var router = express();
-
 var app = express();
 var findDocuments = function(db, callback) {
   sendMessage(senderId,"vo duoc find");
@@ -105,7 +104,7 @@ app.post('/webhook', function(req, res) {
             assert.equal(null, err);
             console.log("Connected correctly to server");
             findDocuments(db, function(item) {
-              sendMessage(item[0].dap);
+              sendMessage(senderId,item[0].dap);
               db.close();
             });
           });     
