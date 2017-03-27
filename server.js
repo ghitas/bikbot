@@ -43,28 +43,32 @@ app.post('/webhook', function(req, res) {
           var MongoClient = require('mongodb').MongoClient , assert = require('assert');
           // Connection URL
           var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
-//           if(n > -1){
-//             hoi = text.substring(n+12,m);
-//             if(m > -1){
-//               dap = text.substring(m+18,text.length);
-//               // Use connect method to connect to the server
-//               MongoClient.connect(url, function(err, db) {
-//                 assert.equal(null, err);
-//                 insertDocuments(db, function() {
-//                   db.close();
-//                 });
-//               });
-//             }
-//           }
-//           MongoClient.connect(url, function(err, db) {
-//             assert.equal(null, err);
-//             console.log("Connected correctly to server");
-//             findDocuments(db, function(item) {
-//               sendMessage(senderId,item[0].dap);
-//               db.close();
-//             },text);
-//           });     
-          //
+          if(n > -1){
+            hoi = text.substring(n+12,m);
+            if(m > -1){
+              dap = text.substring(m+18,text.length);
+              sendMessage(senderId,"thoa man dieu kien insert");
+              // Use connect method to connect to the server
+              MongoClient.connect(url, function(err, db) {
+                assert.equal(null, err);
+                insertDocuments(db, function() {
+                  sendMessage(senderId,"dong ket noi");
+                  db.close();
+                });
+              });
+            }
+          }else{
+            sendMessage(senderId,"chat thong thuong");
+            MongoClient.connect(url, function(err, db) {
+              assert.equal(null, err);
+              console.log("Connected correctly to server");
+              findDocuments(db, function(item) {
+                sendMessage(senderId,item[0].dap);
+                sendMessage(senderId,"dong ket noi");
+                db.close();
+              },text);
+            }); 
+          }
           sendMessage(senderId,text);
         }
       }
