@@ -59,15 +59,27 @@ app.post('/webhook', function(req, res) {
             }
           }else{
             sendMessage(senderId,"chat thong thuong");
-            MongoClient.connect(url, function(err, db) {
-              assert.equal(null, err);
-              console.log("Connected correctly to server");
-              findDocuments(db, function(item) {
-                sendMessage(senderId,item[0].dap);
-                sendMessage(senderId,"dong ket noi");
-                db.close();
-              },text);
-            }); 
+            MongoClient.connect(url)
+              .then(function(db){
+                sendMessage(senderId,"mo ket noi");
+                findDocuments(db, function(item) {
+                  sendMessage(senderId,item[0].dap);
+                  sendMessage(senderId,"dong ket noi");
+                  db.close();
+                },text);
+              })
+              .catch(function(err){
+                sendMessage(senderId,"timeout");
+              });
+//             MongoClient.connect(url, function(err, db) {
+//               assert.equal(null, err);
+//               console.log("Connected correctly to server");
+//               findDocuments(db, function(item) {
+//                 sendMessage(senderId,item[0].dap);
+//                 sendMessage(senderId,"dong ket noi");
+//                 db.close();
+//               },text);
+//             }); 
           }
           sendMessage(senderId,text);
         }
