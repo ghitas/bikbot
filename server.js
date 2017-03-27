@@ -6,50 +6,6 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var router = express();
 var app = express();
-var findDocuments = function(db, callback) {
-  sendMessage(senderId,"vo duoc find");
-  // Get the documents collection
-  var collection = db.collection('user');
-  // Find some documents
-  collection.find({hoi:text}).toArray(function(err, docs) {
-    assert.equal(err, null);
-    callback(docs);
-  });
-}
-
-          //--------------- function insert document to database
-var insertDocuments = function(db, callback) {
-  // Get the documents collection
-  var collection = db.collection('user');
-  // Insert some documents
-  collection.insertMany([
-    {"hoi" : hoi, "dap" : dap }
-  ], function(err, result) {
-    assert.equal(err, null);
-    assert.equal(1, result.result.n);
-    assert.equal(1, result.ops.length);
-    sendMessage(senderId,"e nho roi");
-    callback(result);
-  });
-}
-// Gửi thông tin tới REST API để trả lời
-function sendMessage(senderId, message) {
-  request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {
-      access_token: "EAACyCMDOomYBANF4qJzT8MWasj4ircQ30S2Pjco7pAkCATxZALWgOpgD22m1uDkArS7YaKhjSwwMsz3CP1i3tzUix9Wlu8uMr1J0pbs5Ws9SlyE0HNr1qufslpvUZC3LnQabRVcMe235mLEZBTudFfZA9WAtavEp4iQME3adewZDZD",
-    },
-    method: 'POST',
-    json: {
-      recipient: {
-        id: senderId
-      },
-      message: {
-        text: message
-      },
-    }
-  });
-}
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -116,6 +72,50 @@ app.post('/webhook', function(req, res) {
   }
   res.status(200).send("OK");
 });
+var findDocuments = function(db, callback) {
+  sendMessage(senderId,"vo duoc find");
+  // Get the documents collection
+  var collection = db.collection('user');
+  // Find some documents
+  collection.find({hoi:text}).toArray(function(err, docs) {
+    assert.equal(err, null);
+    callback(docs);
+  });
+}
+
+          //--------------- function insert document to database
+var insertDocuments = function(db, callback) {
+  // Get the documents collection
+  var collection = db.collection('user');
+  // Insert some documents
+  collection.insertMany([
+    {"hoi" : hoi, "dap" : dap }
+  ], function(err, result) {
+    assert.equal(err, null);
+    assert.equal(1, result.result.n);
+    assert.equal(1, result.ops.length);
+    sendMessage(senderId,"e nho roi");
+    callback(result);
+  });
+}
+// Gửi thông tin tới REST API để trả lời
+function sendMessage(senderId, message) {
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {
+      access_token: "EAACyCMDOomYBANF4qJzT8MWasj4ircQ30S2Pjco7pAkCATxZALWgOpgD22m1uDkArS7YaKhjSwwMsz3CP1i3tzUix9Wlu8uMr1J0pbs5Ws9SlyE0HNr1qufslpvUZC3LnQabRVcMe235mLEZBTudFfZA9WAtavEp4iQME3adewZDZD",
+    },
+    method: 'POST',
+    json: {
+      recipient: {
+        id: senderId
+      },
+      message: {
+        text: message
+      },
+    }
+  });
+}
 
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000);
 app.set('ip', process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "0.0.0.0");
