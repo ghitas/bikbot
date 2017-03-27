@@ -60,7 +60,7 @@ app.post('/webhook', function(req, res) {
             assert.equal(null, err);
             findDocuments(db, function() {
               db.close();
-            },text);
+            });
           });
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
@@ -79,17 +79,17 @@ app.post('/webhook', function(req, res) {
           }
           //
           //-------------------function query database
-          var findDocuments = function(db, callback,text) {
+          var findDocuments = function(db, callback) {
             sendMessage(senderId,"vao duoc find"+text);
             // Get the documents collection
-            var collection = db.collection('user');
-            // Find some documents
-            collection.find({'hoi': text}).toArray(function(err, docs) {
-              assert.equal(err, null);
-              alert(docs);
-              sendMessage(senderId,docs[0].dap);
-              callback(docs);
-            });      
+//             var collection = db.collection('user');
+//             // Find some documents
+//             collection.find({'hoi': text}).toArray(function(err, docs) {
+//               assert.equal(err, null);
+//               alert(docs);
+//               sendMessage(senderId,docs[0].dap);
+//               callback(docs);
+//             });      
           }
           sendMessage(senderId,text);
         }
