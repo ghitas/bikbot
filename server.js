@@ -78,6 +78,7 @@ app.post('/webhook', function(req, res) {
               callback(result);
             });
           }
+          //
           //-------------------function query database
           var findDocuments = function(db, callback) {
             sendMessage(senderId,"text: "+ text);
