@@ -62,7 +62,7 @@ app.post('/webhook', function(req, res) {
             findDocuments(db, function(item) {
               sendMessage(senderId,item[0].dap);
               db.close();
-            });
+            },text);
           });     
           //
           sendMessage(senderId,text);
@@ -72,12 +72,11 @@ app.post('/webhook', function(req, res) {
   }
   res.status(200).send("OK");
 });
-var findDocuments = function(db, callback) {
-  sendMessage(senderId,"vo duoc find");
+var findDocuments = function(db, callback, pcttext) {
   // Get the documents collection
   var collection = db.collection('user');
   // Find some documents
-  collection.find({hoi:text}).toArray(function(err, docs) {
+  collection.find({hoi:pcttext}).toArray(function(err, docs) {
     assert.equal(err, null);
     callback(docs);
   });
