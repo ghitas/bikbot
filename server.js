@@ -56,13 +56,13 @@ app.post('/webhook', function(req, res) {
               });
             }
           }
-          MongoClient.connect(url, function(err, db) {
-            assert.equal(null, err);
-            findDocuments(db, function(item) {
-              sendMessage(senderId,item[0].dap);
-              db.close();
-            });
-          });
+//           MongoClient.connect(url, function(err, db) {
+//             assert.equal(null, err);
+//             findDocuments(db, function(item) {
+//               sendMessage(senderId,item[0].dap);
+//               db.close();
+//             });
+//           });
           //--------------- function insert document to database
           var insertDocuments = function(db, callback) {
             // Get the documents collection
