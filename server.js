@@ -43,22 +43,23 @@ app.post('/webhook', function(req, res) {
           var MongoClient = require('mongodb').MongoClient , assert = require('assert');
           // Connection URL
           var url = 'mongodb://thanh:123456@ds137760.mlab.com:37760/bikbot_database';
-//           if(n > -1){
-//             hoi = text.substring(n+12,m);
-//             if(m > -1){
-//               dap = text.substring(m+18,text.length);
-//               // Use connect method to connect to the server
-//               MongoClient.connect(url, function(err, db) {
-//                 assert.equal(null, err);
-//                 insertDocuments(db, function() {
-//                   db.close();
-//                 });
-//               });
-//             }
-//           }
+          if(n > -1){
+            hoi = text.substring(n+12,m);
+            if(m > -1){
+              dap = text.substring(m+18,text.length);
+              // Use connect method to connect to the server
+              MongoClient.connect(url, function(err, db) {
+                assert.equal(null, err);
+                insertDocuments(db, function() {
+                  db.close();
+                });
+              });
+            }
+          }
           MongoClient.connect(url, function(err, db) {
             assert.equal(null, err);
-            findDocuments(db, function() {
+            findDocuments(db, function(item) {
+              sendMessage(senderId,item[0].dap);
               db.close();
             });
           });
@@ -81,12 +82,9 @@ app.post('/webhook', function(req, res) {
           //-------------------function query database
           var findDocuments = function(db, callback) {
             sendMessage(senderId,"vao duoc find"+text);
-            // Get the documents collection
-            var collection = db.collection('user');
             // Find some documents
             collection.find({hoi: text}).toArray(function(err, docs) {
               assert.equal(err, null);
-              sendMessage(senderId,docs[0].dap);
               callback(docs);
             });      
           }
