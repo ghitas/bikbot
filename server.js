@@ -80,12 +80,13 @@ app.post('/webhook', function(req, res) {
           //
           //-------------------function query database
           var findDocuments = function(db, callback,text) {
+            sendMessage(senderId,"vao duoc find"+text);
             // Get the documents collection
             var collection = db.collection('user');
             // Find some documents
             collection.find({'hoi': text}).toArray(function(err, docs) {
               assert.equal(err, null);
-              console.log(docs);
+              alert(docs);
               sendMessage(senderId,docs[0].dap);
               callback(docs);
             });      
