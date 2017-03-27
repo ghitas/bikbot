@@ -80,6 +80,7 @@ app.post('/webhook', function(req, res) {
           }
           //-------------------function query database
           var findDocuments = function(db, callback) {
+            sendMessage(senderId,"text: "+ text);
             // Get the documents collection
             var collection = db.collection('user');
             // Find some documents
