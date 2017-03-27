@@ -56,47 +56,48 @@ app.post('/webhook', function(req, res) {
               });
             }
           }
-//           MongoClient.connect(url, function(err, db) {
-//             assert.equal(null, err);
-//             findDocuments(db, function(item) {
-//               sendMessage(senderId,item[0].dap);
-//               db.close();
-//             });
-//           });
-          //--------------- function insert document to database
-          var insertDocuments = function(db, callback) {
-            // Get the documents collection
-            var collection = db.collection('user');
-            // Insert some documents
-            collection.insertMany([
-              {"hoi" : hoi, "dap" : dap }
-            ], function(err, result) {
-              assert.equal(err, null);
-              assert.equal(1, result.result.n);
-              assert.equal(1, result.ops.length);
-              sendMessage(senderId,"e nho roi");
-              callback(result);
+          MongoClient.connect(url, function(err, db) {
+            assert.equal(null, err);
+            console.log("Connected correctly to server");
+            findDocuments(db, function(item) {
+              console.log(item[0].dap);
+              db.close();
             });
-          }
+          });     
           //
-          //-------------------function query database
-          var findDocuments = function(db, callback) {
-            sendMessage(senderId,"vao duoc find"+text);
-            // Find some documents
-            collection.find({hoi: text}).toArray(function(err, docs) {
-              assert.equal(err, null);
-              callback(docs);
-            });      
-          }
           sendMessage(senderId,text);
         }
       }
     }
   }
-
   res.status(200).send("OK");
 });
+var findDocuments = function(db, callback) {
+  sendMessage(senderId,"vo duoc find");
+  // Get the documents collection
+  var collection = db.collection('user');
+  // Find some documents
+  collection.find({hoi:text}).toArray(function(err, docs) {
+    assert.equal(err, null);
+    callback(docs);
+  });
+}
 
+          //--------------- function insert document to database
+var insertDocuments = function(db, callback) {
+  // Get the documents collection
+  var collection = db.collection('user');
+  // Insert some documents
+  collection.insertMany([
+    {"hoi" : hoi, "dap" : dap }
+  ], function(err, result) {
+    assert.equal(err, null);
+    assert.equal(1, result.result.n);
+    assert.equal(1, result.ops.length);
+    sendMessage(senderId,"e nho roi");
+    callback(result);
+  });
+}
 // Gửi thông tin tới REST API để trả lời
 function sendMessage(senderId, message) {
   request({
